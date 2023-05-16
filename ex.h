@@ -1,40 +1,44 @@
-#ifndef _EDTRABAIO_
-#define _EDTRABAIO_
-#define MAXNOMEMUNICIPIO 29;
-#define MAXSIGLAUF 2;
-#define MAXNOMEESTADO 17;
-#define MAXNOMECAPITAL 8;
-#define MAXNOMEREGIAO 9;
-typedef struct _node{
-    void *informacao;
-    struct _node *pai;
-    struct _node *esq;
-    struct _node *dir;
-    int h;
-}tnode;
+#ifndef _EX_
+#define _EX_
+
+#include <assert.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_NOME_MUNICIPIO 29
+#define MAX_SIGLA_UF 2
+#define MAX_NOME_ESTADO 17
+#define MAX_NOME_CAPITAL 8
+#define MAX_NOME_REGIAO 9
+
+typedef struct EstruturaNo{
+    void *dado;
+    struct no *pai;
+    struct no *esq;
+    struct no *dir;
+}no;
 
 typedef struct MunicipiosBrasileiros
 {
-    int Cod
-    char[MAXNOMEMUNICIPIO+1] NomeMuni;
-    int	CodUF
-    char[MAXSIGLAUF+1] SiglaUF;
-    char[MAXNOMEESTADO+1]	Estado;
-    char[MAXNOMECAPITAL+1]	Capital;
+    int Cod;
+    char NomeMuni[MAX_NOME_MUNICIPIO+1];
+    int	CodUF;
+    char SiglaUF[MAX_SIGLA_UF+1];
+    char Estado[MAX_NOME_ESTADO+1];
+    char Capital[MAX_NOME_CAPITAL+1];
     int	Latitude;
     int Longitude;
-    char[MAXNOMEREGIAO+1] Região;
+    char Regiao[MAX_NOME_REGIAO+1];
     int CodSiafi;
     int	DDD;
     int FusoHorario;
-    kdT* cabeca;
-    kdT* fEsq;
-    kdT* fDir;
 }MunicBr;
 
 
-
-void avl_insere(tnode ** parv,titem reg);
-void avl_rebalancear(tnode **parv);
+MunicBr* criarDado(int Cod, char* NomeMuni, int	CodUF, char* SiglaUF, char*	Estado, char* Capital, int	Latitude, int Longitude, char* Região, int CodSiafi, int DDD, int FusoHorario);
+no* criarNo(void* dado);
+void inserirNoArvore(no** Parv, void* dado);
+void inserir(no** Parv, void* dado);
 
 #endif
