@@ -95,7 +95,7 @@ void inserirNoArvoreUnico(No** Parv, No* novoNo, int ordem) {
             printf("Incluindo à direita\n");
             return;
         } else {
-            inserirNoArvoreUnico(&((*Parv)->dir), novoNo, ordem + 1);
+            inserirNoArvoreUnico(&((*Parv)->dir), &(*novoNo), ordem + 1);
         }
     } else {
       printf("comparação feita");
@@ -105,7 +105,7 @@ void inserirNoArvoreUnico(No** Parv, No* novoNo, int ordem) {
             printf("Incluindo à esquerda\n");
             return;
         } else {
-            inserirNoArvoreUnico(&((*Parv)->esq), novoNo, ordem + 1);
+            inserirNoArvoreUnico(&((*Parv)->esq), &(*novoNo), ordem + 1);
         }
     }
 }

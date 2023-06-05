@@ -323,7 +323,7 @@ No* buscarFast(No* Parv, void* aux, int ordem){
 }
 void lerListaFast(No** Parv) {
   No* p=NULL;
-    FILE* arq = fopen("fastFood.txt", "r");
+    FILE* arq = fopen("../fastFood.txt", "r");
     if (arq == NULL) {
         printf("Erro ao abrir o arquivo\n");
         return;

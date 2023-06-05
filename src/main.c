@@ -16,7 +16,7 @@ int main (void){
         do{
         resposta=interfaceInserirSimples();
         if(resposta==0){
-            lerListaMunic(&Parv);
+          lerListaMunic(&Parv);
           if(Parv==NULL){
             printf("dado não incluído");
           }
