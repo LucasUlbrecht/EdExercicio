@@ -405,24 +405,24 @@ void acharKVisinhosProx(No* Parv, float p[], int k, No* vizinhos, int ordem) {
   }
   int grandezaAtual = ordem % 2;
   if (Parv->compara(Parv->dado, tmpf, grandezaAtual) == 1) {
-    printf("comparação feita");
-      if (Parv->dir == NULL) {
-        int tam=k;
-          encontraKSucessores(Parv, &k, vizinhos);
-          encontraPredecessor(Parv, &k, p, tam, tam, vizinhos);
-          return;
-      } else {
-          acharKVisinhosProx(Parv->dir, p,k,vizinhos, ordem + 1);
-      }
+  printf("comparação feita");
+  if (Parv->dir == NULL) {
+    int tam=k;
+    encontraKSucessores(Parv, &k, vizinhos);
+    encontraPredecessor(Parv, &k, p, tam, tam, vizinhos);
+      return;
+  } else {
+    acharKVisinhosProx(Parv->dir, p,k,vizinhos, ordem + 1);
+  }
   } else {
     printf("comparação feita");
-      if (Parv->esq == NULL) {
-        int tam=k;
-        encontraKSucessores(Parv, &k, vizinhos);
-        encontraPredecessor(Parv, &k,p, tam, tam, vizinhos);  
+    if (Parv->esq == NULL) {
+      int tam=k;
+      encontraKSucessores(Parv, &k, vizinhos);
+      encontraPredecessor(Parv, &k,p, tam, tam, vizinhos);  
       return;
       } else {
-          acharKVisinhosProx(Parv->esq, p,k,vizinhos, ordem + 1);
+        acharKVisinhosProx(Parv->esq, p,k,vizinhos, ordem + 1);
       }
   }
 }
@@ -451,51 +451,49 @@ void encontraPredecessor(No* Parv, int* tamSbr,float p[], int tamAnt, int k, No*
 if(Parv==NULL || k==0)
     return;
   if(Parv->esq!=NULL){
-    No* p=Parv->esq;
-    while(p->dir!=NULL){
-      p=p->dir;
+    No* no=Parv->esq;
+    while(no->dir!=NULL){
+      no=no->dir;
     }
-    //lista[k-1]=p;
+    compararListaNo(lista, tamAnt, no, p);
+    encontraPredecessor(no, tamSbr, p, tamAnt, k-1, lista);
   }else{
-    No*p=Parv->pai;
+    No*no=Parv->pai;
     No*ant=Parv;
-    while(p->pai!=NULL && p->esq==ant){
-      p=p->pai;
+    while(no->pai!=NULL && no->esq==ant){
+      no=no->pai;
       ant=ant->pai;
     }
-    if(tamSbr>0){
-      //lista[k-1]=p;
-    }else{
-      
-    }
+    compararListaNo(lista, tamAnt, no, p);
+    encontraPredecessor(no, tamSbr, p, tamAnt, k-1, lista);
   }
 }
 
 void compararListaNo(No* lista, int tamanho, No* no, float* p) {
-    float distanciaLista, distanciaNo;
-    int i, indiceMaiorDistancia = 0;
+  float distanciaLista, distanciaNo;
+  int i, indiceMaiorDistancia = 0;
   FastF* dadoLista = (FastF*)lista[0].dado;
-    float maiorDistancia = calcularDiferencaPontos(p[0], p[1], dadoLista->Latitude, dadoLista->Longitude);
+  float maiorDistancia = calcularDiferencaPontos(p[0], p[1], dadoLista->Latitude, dadoLista->Longitude);
 
-    for (i = 0; i < tamanho; i++) {
-        dadoLista = (FastF*)lista[i].dado;
-        distanciaLista = calcularDiferencaPontos(p[0], p[1], dadoLista->Latitude, dadoLista->Longitude);
-        if (distanciaLista > maiorDistancia) {
-            maiorDistancia = distanciaLista;
-            indiceMaiorDistancia = i;
-        }
+  for (i = 0; i < tamanho; i++) {
+    dadoLista = (FastF*)lista[i].dado;
+    distanciaLista = calcularDiferencaPontos(p[0], p[1], dadoLista->Latitude, dadoLista->Longitude);
+    if (distanciaLista > maiorDistancia) {
+      maiorDistancia = distanciaLista;
+      indiceMaiorDistancia = i;
     }
+  }
 
-    FastF* dadoNo = (FastF*)no->dado;
-    distanciaNo = calcularDiferencaPontos(p[0], p[1], dadoNo->Latitude, dadoNo->Longitude);
+  FastF* dadoNo = (FastF*)no->dado;
+  distanciaNo = calcularDiferencaPontos(p[0], p[1], dadoNo->Latitude, dadoNo->Longitude);
 
-    if (distanciaNo < maiorDistancia) {
-        trocarNos(&lista[indiceMaiorDistancia], no);
-    }
+  if (distanciaNo < maiorDistancia) {
+    trocarNos(&lista[indiceMaiorDistancia], no);
+  }
 }
 
 void trocarNos(No* no1, No* no2) {
-    No temp = *no1;
-    *no1 = *no2;
-    *no2 = temp;
+  No temp = *no1;
+  *no1 = *no2;
+  *no2 = temp;
 }
