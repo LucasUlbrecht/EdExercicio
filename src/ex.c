@@ -323,44 +323,45 @@ No* buscarFast(No* Parv, void* aux, int ordem){
 }
 void lerListaFast(No** Parv) {
   No* p=NULL;
-    FILE* arq = fopen("../fastFood.txt", "r");
+    FILE* arq = fopen("fastFood.txt", "r");
     if (arq == NULL) {
         printf("Erro ao abrir o arquivo\n");
         return;
     }
 
     int x = 0;
+    FastF* FastFood;
     while (1) {
-      *Parv=p;
-        FastF* FastFood = (FastF*) malloc(sizeof(FastF));
-        if (fscanf(arq, "%d,%[^,],%[^,],%[^,],%f,%f,%[^,],%d,%[^,],%[^\n]\n)",
+      FastFood = (FastF*) malloc(sizeof(FastF));
+      assert(FastFood!=NULL);
+      if (fscanf(arq, "%d,%[^,],%[^,],%[^,],%f,%f,%[^,],%d,%[^,],%[^\n]\n)",
                    &FastFood->cod, FastFood->address, FastFood->city, FastFood->country,
                    &FastFood->Latitude, &FastFood->Longitude, FastFood->nome,
                    &FastFood->postalCode, FastFood->province, FastFood->website) == EOF) {
-            free(FastFood);
-            break;
-        }
+        free(FastFood);
+        break;
+      }
 
-        No *novoNo = (No*)malloc(sizeof(No));
-    if (novoNo == NULL) {
+      No *novoNo = (No*)malloc(sizeof(No));
+      if (novoNo == NULL) {
         printf("Erro ao alocar memória para o nó\n");
-        return NULL;
-    }
-    void* aux=(void*)FastFood;
-    novoNo->dado = aux;
-    novoNo->pai = NULL;
-    novoNo->esq = NULL;
-    novoNo->dir = NULL;
-    novoNo->compara = compara;
-    novoNo->printDado = NULL;
-        printf("dado gerado\n");
-        printf("inserindo no\n");
-        inserirNoArvoreUnico(&p, novoNo, 0);
-        printf("termo %d gerado\n", x);
-      print(p);
+        return;
+      }
+      novoNo->dado = (void*)&(*FastFood);
+      novoNo->pai = NULL;
+      novoNo->esq = NULL;
+      novoNo->dir = NULL;
+      novoNo->compara = compara;
+      novoNo->printDado = NULL;
+      printf("dado gerado\n");
+      printf("inserindo no\n");
+      inserirNoArvoreUnico(&(*Parv), &(*novoNo), 0);
+      printf("termo %d gerado\n", x);
+      FastFood=NULL;
+      print(novoNo);
         x++;
     }
-
+  
     fclose(arq);
 }
 
@@ -450,21 +451,23 @@ void encontraPredecessor(No* Parv, int* tamSbr,float p[], int tamAnt, int k, No*
 if(Parv==NULL || k==0)
     return;
   if(Parv->esq!=NULL){
-    No* no=Parv->esq;
-    while(no->dir!=NULL){
-      no=no->dir;
+    No* p=Parv->esq;
+    while(p->dir!=NULL){
+      p=p->dir;
     }
-    compararListaNo(lista, tamAnt, no, p);
-    encontraPredecessor(no, tamSbr, p, tamAnt, k-1, lista);
+    //lista[k-1]=p;
   }else{
-    No*no=Parv->pai;
+    No*p=Parv->pai;
     No*ant=Parv;
-    while(no->pai!=NULL && no->esq==ant){
-      no=no->pai;
+    while(p->pai!=NULL && p->esq==ant){
+      p=p->pai;
       ant=ant->pai;
     }
-    compararListaNo(lista, tamAnt, no, p);
-    encontraPredecessor(no, tamSbr, p, tamAnt, k-1, lista);
+    if(tamSbr>0){
+      //lista[k-1]=p;
+    }else{
+      
+    }
   }
 }
 
